@@ -14,5 +14,14 @@ namespace Canon
                 Destroy(this.gameObject);
             }
         }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (other.gameObject.CompareTag("Brick")) {
+                Debug.Log("Hit");
+                Brick brick = other.gameObject.GetComponent<Brick>();
+                brick.LooseDurability(_piercing);
+            }
+        }
     }
 }
