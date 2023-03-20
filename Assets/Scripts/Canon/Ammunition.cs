@@ -7,6 +7,17 @@ namespace Canon
     {
         [SerializeField] [Range(0,5)]
         private int _piercing;
+        
+        private float _lifetime = 0f;
+        private const float MaximumLifetime = 30f;
+
+        private void FixedUpdate()
+        {
+            _lifetime += Time.deltaTime;
+            
+            if (_lifetime > MaximumLifetime)
+                Destroy(this.gameObject);
+        }
 
         private void OnTriggerEnter(Collider other)
         {

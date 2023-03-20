@@ -24,8 +24,12 @@ public class GenerateBrickRows: MonoBehaviour
 
     private void DrawBrickRaws()
     {
-        Vector3 nextPosition = referencePoint.transform.position;
+        GameObject instance = null;
+        Vector3 instancePos;
+            
         int prefabType = 0;
+        float incrementX = 0f;
+        float incrementY = 0f;
         
         for (int iRow = 0; iRow < rows; iRow++)
         {
@@ -33,13 +37,17 @@ public class GenerateBrickRows: MonoBehaviour
             
             for (int iCol = 0; iCol < rowSize; iCol++)
             {
-                Instantiate(prefabList[prefabType], nextPosition, Quaternion.identity);
-                nextPosition.x += _brickScale.x + 0.5f;
-                Debug.Log("x-pos: " + nextPosition.x);
+                instance = Instantiate(prefabList[prefabType], referencePoint.transform);
+                
+                instancePos = instance.transform.position;
+                instancePos.x += incrementX;
+                instancePos.y += incrementY;
+                instance.transform.position = instancePos;
+                incrementX += 0.5f + _brickScale.x;
             }
 
-            nextPosition.x = referencePoint.transform.position.x;
-            nextPosition.y -= _brickScale.y + 0.5f;
+            incrementX = 0f;
+            incrementY += 0.5f + _brickScale.y;
         }
     }
 }
