@@ -11,7 +11,7 @@ namespace Canon
 
         [Header("Properties")]
         [SerializeField] private float _cooldown;
-        private float _cooldownTimer = 0f;
+        private float _cooldownTimer;
         [SerializeField] private int _firePower;
         private readonly int _inherentFirePower = 10;
 

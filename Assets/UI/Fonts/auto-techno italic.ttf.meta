@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 4fbca5303c83fcd41819e265b21f261e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Auto Techno
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: bef2ad4653ebbef4fa224c7e59d9b54c, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
