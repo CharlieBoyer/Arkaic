@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+namespace Managers
+{
     public class AudioManager: MonoBehaviour
     {
         public static AudioManager Instance;
@@ -23,6 +25,7 @@ using UnityEngine;
 
         public void SetAudioSourceVolume(float userMultiplier)
         {
+            userMultiplier /= 100;
             audioSource.volume = maximumVolume * userMultiplier;
         }
 
@@ -96,3 +99,4 @@ using UnityEngine;
             }
         }
     }
+}
