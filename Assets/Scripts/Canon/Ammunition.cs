@@ -28,8 +28,8 @@ namespace Canon
 
         private void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.CompareTag("Brick")) {
-                Debug.Log("Hit");
+            if (other.gameObject.CompareTag("Brick"))
+            {
                 Brick brick = other.gameObject.GetComponent<Brick>();
                 brick.LooseDurability(_piercing);
             }
