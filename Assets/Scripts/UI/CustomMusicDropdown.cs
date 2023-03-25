@@ -30,9 +30,7 @@ namespace UI
         private void UpdatePlayingClip(int optionIndex)
         {
             if (optionIndex >= 0 || optionIndex < musics.Count)
-            {
-                AudioManager.Instance.ChangeAudioClip(musics[optionIndex]);
-            }
+                AudioManager.instance.ChangeAudioClip(musics[optionIndex]);
         }
     }
 }

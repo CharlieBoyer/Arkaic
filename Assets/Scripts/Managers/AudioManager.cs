@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Managers
 {
     public class AudioManager: MonoBehaviour
     {
-        public static AudioManager Instance;
+        public static AudioManager instance;
         public AudioSource audioSource;
 
         [Range(0, 1)]
@@ -15,8 +16,8 @@ namespace Managers
 
         private void Awake()
         {
-            if (Instance == null)
-                Instance = this;
+            if (instance == null)
+                instance = this;
             else
                 DestroyImmediate(gameObject);
 
@@ -47,16 +48,17 @@ namespace Managers
 
         public void ChangeAudioClip(AudioClip newClip)
         {
+            if (newClip == null)
+                return;
+
             _pendingAudioClip = newClip;
             StartCoroutine(SwitchAudioClipWithFade());
-            _pendingAudioClip = null;
         }
 
         public void ChangeAudioClip(string pathToAudioClip)
         {
             _pendingAudioClip = Resources.Load<AudioClip>(pathToAudioClip);
             StartCoroutine(SwitchAudioClipWithFade());
-            _pendingAudioClip = null;
         }
 
         public IEnumerator FadeSound()
@@ -75,13 +77,13 @@ namespace Managers
 
         private IEnumerator SwitchAudioClipWithFade()
         {
-            const float fadeTime = 0.7f;
+            const float fadeTime = 1f;
             float t = 0f;
             float initialVolume = audioSource.volume;
 
             while (t < 1)
             {
-                t += Time.deltaTime / fadeTime;
+                t += Time.unscaledDeltaTime / fadeTime;
                 audioSource.volume = Mathf.Lerp(initialVolume, 0.00f, t);
                 yield return null;
             }
@@ -93,10 +95,12 @@ namespace Managers
 
             while (t < 1)
             {
-                t += Time.deltaTime / fadeTime;
+                t += Time.unscaledDeltaTime / fadeTime;
                 audioSource.volume = Mathf.Lerp(0.00f, initialVolume, t);
                 yield return null;
             }
+            
+            _pendingAudioClip = null;
         }
     }
 }

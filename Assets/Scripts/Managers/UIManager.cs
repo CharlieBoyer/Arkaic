@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Managers
 {
@@ -8,6 +9,7 @@ namespace Managers
     {
         public GameObject pauseOverlay;
         public Slider volume;
+        public TMP_Text volumeValue;
 
         private void Start() {
             pauseOverlay.SetActive(false);
@@ -36,7 +38,8 @@ namespace Managers
 
         public void UpdateVolume()
         {
-            AudioManager.Instance.SetAudioSourceVolume(volume.value);
+            AudioManager.instance.SetAudioSourceVolume(volume.value);
+            volumeValue.text = volume.value + " %";
         }
     }
 }

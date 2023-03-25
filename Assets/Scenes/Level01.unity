@@ -4673,6 +4673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1900890168}
+  - component: {fileID: 1900890172}
   - component: {fileID: 1900890171}
   - component: {fileID: 1900890170}
   - component: {fileID: 1900890169}
@@ -4804,6 +4805,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900890167}
   m_CullTransparentMesh: 1
+--- !u!114 &1900890172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900890167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5d459e062246b0a5bedbd9ee93c4dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musics:
+  - {fileID: 8300000, guid: 5cc28dc6956cb164a9d0c6006edad167, type: 3}
+  - {fileID: 8300000, guid: b1170ef2ab5ab104a8eaaa5ab0beac76, type: 3}
+  - {fileID: 8300000, guid: 2b2398967f7b26a499056a05c97a52d7, type: 3}
 --- !u!1 &1930763204
 GameObject:
   m_ObjectHideFlags: 0
