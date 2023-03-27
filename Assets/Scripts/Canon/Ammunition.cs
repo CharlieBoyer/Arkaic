@@ -1,38 +1,62 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
+using Managers;
 
 namespace Canon
 {
-    public class Ammunition: MonoBehaviour
+    public class Ammunition : MonoBehaviour
     {
-        [SerializeField] [Range(0,5)]
-        private int _piercing;
+        public static bool isAlive = false;
         
-        private float _lifetime = 0f;
-        private const float MaximumLifetime = 30f;
+        [Range(0, 5)] public int piercing;
 
-        private void FixedUpdate()
+        private const float MaximumLifetime = 5f;
+        private float _lifetime = 0f;
+
+        private void Awake()
         {
-            _lifetime += Time.deltaTime;
+            StartCoroutine(StartLifetime());
+        }
+        
+        private IEnumerator StartLifetime()
+        {
+            isAlive = true;
             
-            if (_lifetime > MaximumLifetime)
-                Destroy(this.gameObject);
+            while (_lifetime < MaximumLifetime)
+            {
+                _lifetime += Time.deltaTime;
+                yield return null;
+            }
+            
+            Destroy(this.gameObject);
+            isAlive = false;
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("PlaygroundLimit")) {
+            if (other.CompareTag("PlaygroundLimit"))
+            {
+                StopAllCoroutines();
                 Destroy(this.gameObject);
+                isAlive = false;
             }
         }
 
         private void OnCollisionEnter(Collision other)
         {
+            _lifetime = 0f;
+
             if (other.gameObject.CompareTag("Brick"))
             {
                 Brick brick = other.gameObject.GetComponent<Brick>();
-                brick.LooseDurability(_piercing);
+                brick.LooseDurability(piercing);
+                ScoreManager.instance.RegisterPoints(ScoreManager.instance.bounceValue);
             }
+        }
+
+        private void OnDestroy()
+        {
+            ScoreManager.instance.UpdateGlobalScore();
         }
     }
 }
