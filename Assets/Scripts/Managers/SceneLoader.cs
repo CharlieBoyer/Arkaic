@@ -5,10 +5,10 @@ namespace Managers
 {
     public class SceneLoader: MonoBehaviour
     {
+        // ReSharper disable once MemberCanBePrivate.Global
         public static SceneLoader instance;
 
-        private static bool AltF4 => Input.GetKeyDown(KeyCode.LeftControl) &&
-                                     Input.GetKeyDown(KeyCode.LeftAlt) &&
+        private static bool AltF4 => Input.GetKeyDown(KeyCode.LeftAlt) &&
                                      Input.GetKeyDown(KeyCode.F4);
 
         private void Awake()
@@ -21,7 +21,10 @@ namespace Managers
 
         private void Update()
         {
-            if (AltF4) { Exit(); }
+            if (AltF4)
+            {
+                Exit();
+            }
             
             if (Input.GetButtonDown("Cancel") && !UIManager.pauseActive)
                 UIManager.instance.Pause();
@@ -33,6 +36,7 @@ namespace Managers
             UnityEditor.EditorApplication.ExitPlaymode();
             // Application.Quit();
         }
+        
         
         
     }

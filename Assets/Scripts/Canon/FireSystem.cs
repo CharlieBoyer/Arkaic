@@ -7,26 +7,22 @@ namespace Canon
         [Header("References")]
         public GameObject ammoPrefab;
         public Transform canonTip;
-        private Vector3 spawnWorldPosition;
-
+        private Vector3 _spawnWorldPosition;
+        
         [Header("Properties")]
-        [SerializeField] private float _cooldown;
-        private float _cooldownTimer;
-        [SerializeField] private int _firePower;
-        private readonly int _inherentFirePower = 10;
+        public int firePower;
+        private const int InherentFirePower = 10;
 
         private void Awake()
         {
-            _firePower *= _inherentFirePower;
+            firePower *= InherentFirePower;
         }
 
         private void Update()
         {
-            if (Input.GetButtonDown("Fire1") && _cooldownTimer <= 0) {
+            if (Input.GetButtonDown("Fire1") && !Ammunition.isAlive) {
                 Fire();
-                Cooldown();
             }
-            _cooldownTimer -= Time.deltaTime;
         }
 
         private void Fire()
@@ -34,12 +30,8 @@ namespace Canon
             GameObject ammoClone = Instantiate(ammoPrefab, canonTip);
             
             canonTip.DetachChildren();
-            ammoClone.GetComponent<Rigidbody>().AddForce(ammoClone.transform.up * _firePower, ForceMode.Impulse);
+            ammoClone.GetComponent<Rigidbody>().AddForce(ammoClone.transform.up * firePower, ForceMode.Impulse);
         }
-
-        private void Cooldown()
-        {
-            _cooldownTimer = _cooldown;
-        }
+        
     }
 }
