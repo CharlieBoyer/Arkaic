@@ -34,12 +34,17 @@ namespace Managers
 
         public void UpdateGlobalScore()
         {
+            int initialGlobalScore = globalScore;
+            int initialShotScore = shotScore;
             
+            globalScore += shotScore;
+            shotScore = 0;
+            UIManager.instance.UpdateGlobalScore(initialGlobalScore, initialShotScore);
         }
 
         private void UpdateShotScore()
         {
-            
+            UIManager.instance.UpdateShotScore();
         }
 
         public void RegisterPoints(int points, Multiplier value = Multiplier.Increment)

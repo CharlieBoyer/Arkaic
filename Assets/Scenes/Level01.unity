@@ -2374,7 +2374,7 @@ MonoBehaviour:
   multiplierLevel: {fileID: 1440024271}
   _scoreDelay: 2
   _colorDelay: 0.15
-  _multiplierDelay: 1
+  _multiplierDelay: 0.5
 --- !u!4 &510348902
 Transform:
   m_ObjectHideFlags: 0
@@ -4170,7 +4170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1120619634}
-  maximumVolume: 0
+  maximumVolume: 0.2
 --- !u!1 &1316116673
 GameObject:
   m_ObjectHideFlags: 0

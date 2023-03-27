@@ -67,58 +67,62 @@ namespace Managers
             volumeValue.text = volume.value + " %";
         }
 
-        public void UpdateGlobalScore()
+        public void UpdateGlobalScore(int global, int shot)
         {
-            StartCoroutine(UpdateGlobalScoreAnimated());
-            StartCoroutine(ResetShotScoreAnimated());
+            StartCoroutine(UpdateGlobalScoreAnimated(global, shot));
+            StartCoroutine(ResetShotScoreAnimated(shot));
         }
         
         public void UpdateShotScore()
         {
-            StartCoroutine(UpdateShotScoreAnimated(shotScorePanel, Color.yellow));
+            StartCoroutine(UpdateShotScoreAnimated());
+        }
+        
+        public void UpdateMultiplierMeter(int initialProgress)
+        {
+            StartCoroutine(UpdateMultiplierMeterAnimated(initialProgress));
         }
 
-        private IEnumerator UpdateGlobalScoreAnimated()
+        private IEnumerator UpdateGlobalScoreAnimated(int globalScore, int shotScore)
         {
             Color initialColor = globalScorePanel.color;
             float t = 0;
-            int initialGlobalScore = ScoreManager.globalScore;
-            int scoreToIncrement = initialGlobalScore + ScoreManager.shotScore;
+            int scoreToIncrement = globalScore + shotScore;
 
             globalScorePanel.color = Color.green;
             
             while (t < 1)
             {
                 t += Time.deltaTime / _scoreDelay;
-                globalScorePanel.text = Mathf.RoundToInt(Mathf.Lerp(initialGlobalScore, scoreToIncrement, t)).ToString("D7");
+                globalScorePanel.text = Mathf.RoundToInt(Mathf.Lerp(globalScore, scoreToIncrement, t)).ToString("D7");
                 yield return null;
             }
 
             globalScorePanel.color = initialColor;
-
         }
 
-        private IEnumerator ResetShotScoreAnimated()
+        private IEnumerator ResetShotScoreAnimated(int shotScore)
         {
             float t = 0;
 
             while (t < 1)
             {
                 t += Time.deltaTime / _scoreDelay;
-                shotScorePanel.text = Mathf.RoundToInt(Mathf.Lerp(ScoreManager.shotScore, 0, t)).ToString();
+                shotScorePanel.text = "Current: " + Mathf.RoundToInt(Mathf.Lerp(shotScore, 0, t)).ToString();
                 yield return null;
             }
         }
 
         // ReSharper disable once SuggestBaseTypeForParameter (TMP_Text)
-        private IEnumerator UpdateShotScoreAnimated(TMP_Text text, Color flashColor)
+        private IEnumerator UpdateShotScoreAnimated()
         {
             float t = 0f;
-            Color startColor = text.color;
+            Color startColor = shotScorePanel.color;
+            Color flashColor = Color.yellow;
 
             while (t < 1) {
                 t += Time.deltaTime / _colorDelay;
-                text.color = Color.Lerp(startColor, flashColor, t);
+                shotScorePanel.color = Color.Lerp(startColor, flashColor, t);
                 yield return null;
             }
             
@@ -127,14 +131,9 @@ namespace Managers
             
             while (t < 1) {
                 t += Time.deltaTime / _colorDelay;
-                text.color = Color.Lerp(flashColor, startColor, t);
+                shotScorePanel.color = Color.Lerp(flashColor, startColor, t);
                 yield return null;
             }
-        }
-
-        public void UpdateMultiplierMeter(int initialProgress)
-        {
-            StartCoroutine(UpdateMultiplierMeterAnimated(initialProgress));
         }
 
         private IEnumerator UpdateMultiplierMeterAnimated(int initialProgress)
