@@ -127,4 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95878b6aca42493290d9242f23abb89c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _piercing: 5
+  piercing: 1

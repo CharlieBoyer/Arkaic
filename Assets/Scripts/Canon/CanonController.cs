@@ -8,8 +8,8 @@ namespace Canon
         private FireSystem _fireSystem;
         
         [Range(0.1f, 10f)] public float sensitivity;
-        private readonly float _inherentSensitivity = 100f;
-        
+        private const float InherentSensitivity = 100f;
+
         [SerializeField] [Range(0,-80)] private float minAngle;
         [SerializeField] [Range(0,80)] private float maxAngle;
         
@@ -22,7 +22,7 @@ namespace Canon
 
         private void HandleRotation()
         {
-            float inputX = Input.GetAxis("Mouse X") * sensitivity * _inherentSensitivity * Time.deltaTime;
+            float inputX = Input.GetAxis("Mouse X") * sensitivity * InherentSensitivity * Time.deltaTime;
 
             _targetAngle += new Vector3(0, 0, -inputX); // Correcting direction
             _targetAngle.z = Mathf.Clamp(_targetAngle.z, minAngle, maxAngle);
