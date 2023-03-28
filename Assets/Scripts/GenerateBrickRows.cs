@@ -11,6 +11,9 @@ public class GenerateBrickRows: MonoBehaviour
     [Range(0, 10)] public int rows;
     [Range(0, 11)] public int rowSize;
 
+    public float verticalPadding;
+    public float horizontalPadding;
+
     private Vector3 _brickScale;
 
     private void Awake() {
@@ -43,11 +46,11 @@ public class GenerateBrickRows: MonoBehaviour
                 instancePos.x += incrementX;
                 instancePos.y += incrementY;
                 instance.transform.position = instancePos;
-                incrementX += 0.5f + _brickScale.x;
+                incrementX += horizontalPadding + _brickScale.x;
             }
 
             incrementX = 0f;
-            incrementY += 0.5f + _brickScale.y;
+            incrementY += verticalPadding + _brickScale.y;
         }
     }
 }

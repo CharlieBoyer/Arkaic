@@ -10,6 +10,8 @@ namespace Managers
     {
         public static UIManager instance;
         public static bool pauseActive;
+
+        public static Color defaultUIColor = new Color(0, 251, 255);
         
         [Header("UI Pause Overlay")]
         public GameObject pauseOverlay;
@@ -25,7 +27,8 @@ namespace Managers
         [Header("Animation delays")]
         [SerializeField] private float _scoreDelay;
         [SerializeField] private float _colorDelay;
-        [SerializeField] private float _multiplierDelay;
+        [SerializeField] private float _multiplierMeterDelay;
+        [SerializeField] private float _multiplierNumberDelay;
         
         private void Awake()
         {
@@ -53,7 +56,7 @@ namespace Managers
 
         public void Restart()
         {
-            Time.timeScale = 1;
+            StopAllCoroutines();
             SceneManager.LoadScene("Level01", LoadSceneMode.Single);
         }
 
@@ -69,6 +72,7 @@ namespace Managers
 
         public void UpdateGlobalScore(int global, int shot)
         {
+            globalScorePanel.color = defaultUIColor;
             StartCoroutine(UpdateGlobalScoreAnimated(global, shot));
             StartCoroutine(ResetShotScoreAnimated(shot));
         }
@@ -81,6 +85,17 @@ namespace Managers
         public void UpdateMultiplierMeter(int initialProgress)
         {
             StartCoroutine(UpdateMultiplierMeterAnimated(initialProgress));
+        }
+
+        public void ResetMultiplierMeter()
+        {
+            StartCoroutine(ResetMultiplierMeterAnimated());
+        }
+
+        public void IncreaseMultiplierLevel(int multiplier)
+        {
+            StartCoroutine(IncreaseMultiplierLevelAnimated(multiplier));
+            StartCoroutine(ResetMultiplierMeterAnimated());
         }
 
         private IEnumerator UpdateGlobalScoreAnimated(int globalScore, int shotScore)
@@ -108,7 +123,7 @@ namespace Managers
             while (t < 1)
             {
                 t += Time.deltaTime / _scoreDelay;
-                shotScorePanel.text = "Current: " + Mathf.RoundToInt(Mathf.Lerp(shotScore, 0, t)).ToString();
+                shotScorePanel.text = "Current: " + Mathf.RoundToInt(Mathf.Lerp(shotScore, 0, t)).ToString("D4");
                 yield return null;
             }
         }
@@ -119,7 +134,8 @@ namespace Managers
             float t = 0f;
             Color startColor = shotScorePanel.color;
             Color flashColor = Color.yellow;
-
+            
+            shotScorePanel.color = Color.white;
             while (t < 1) {
                 t += Time.deltaTime / _colorDelay;
                 shotScorePanel.color = Color.Lerp(startColor, flashColor, t);
@@ -127,34 +143,66 @@ namespace Managers
             }
             
             t = 0;
-            shotScorePanel.text = ScoreManager.shotScore.ToString();
+            shotScorePanel.text = "Current: " + ScoreManager.shotScore.ToString("D4");
             
             while (t < 1) {
                 t += Time.deltaTime / _colorDelay;
                 shotScorePanel.color = Color.Lerp(flashColor, startColor, t);
                 yield return null;
             }
+            shotScorePanel.color = Color.white;
         }
 
         private IEnumerator UpdateMultiplierMeterAnimated(int initialProgress)
         {
             float t = 0f;
-            float fillAmount = (float) initialProgress / ScoreManager.MultiplierUpThreshold;
-            float targetAmount = (float) ScoreManager.multiplierProgress / ScoreManager.MultiplierUpThreshold;
+            float fillAmount = (float) initialProgress / ScoreManager.multiplierUpThreshold;
+            float targetAmount = (float) ScoreManager.multiplierProgress / ScoreManager.multiplierUpThreshold;
 
             while  (t < 1f)
             {
-                t += Time.deltaTime / _scoreDelay;
+                t += Time.deltaTime / _multiplierMeterDelay;
                 multiplierMeter.fillAmount = Mathf.Lerp(fillAmount, targetAmount, t);
                 yield return null;
             }
 
-            multiplierMeter.fillAmount = targetAmount; // Interpolation imprecisions or rounding errors
+            multiplierMeter.fillAmount = targetAmount; // Interpolation imprecision or rounding errors
+        }
+        
+        private IEnumerator IncreaseMultiplierLevelAnimated(int multiplier)
+        {
+            float initialSize = multiplierLevel.fontSize;
+            float t = 0;
+
+            while (t < 1)
+            {
+                t += Time.deltaTime / _multiplierNumberDelay;
+                multiplierLevel.fontSize = Mathf.Lerp(initialSize, initialSize + 25, t);
+                yield return null;
+            }
+
+            multiplierLevel.text = multiplier.ToString();
+            t = 0;
+
+            while (t < 1)
+            {
+                t += Time.deltaTime / _multiplierNumberDelay;
+                multiplierLevel.fontSize = Mathf.Lerp(initialSize + 25, initialSize, t);
+                yield return null;
+            }
         }
 
-        public void IncreaseMultiplierLevel()
+        private IEnumerator ResetMultiplierMeterAnimated()
         {
-            // Briefly increase font size and flash the whole meter before emptying it;
+            float t = 0f;
+            float currentFill = multiplierMeter.fillAmount;
+
+            while (t < 1f)
+            {
+                t += Time.deltaTime / 0.5f;
+                multiplierMeter.fillAmount = Mathf.Lerp(currentFill, 0, t);
+                yield return null;
+            }
         }
     }
 }

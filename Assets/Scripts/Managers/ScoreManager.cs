@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
@@ -22,7 +23,7 @@ namespace Managers
         private static int _multiplier = 1;
         
         public static int multiplierProgress = 0;
-        public const int MultiplierUpThreshold = 10;
+        public static int multiplierUpThreshold = 3;
 
         private void Awake()
         {
@@ -37,6 +38,7 @@ namespace Managers
             int initialGlobalScore = globalScore;
             int initialShotScore = shotScore;
             
+            ResetMultiplier();
             globalScore += shotScore;
             shotScore = 0;
             UIManager.instance.UpdateGlobalScore(initialGlobalScore, initialShotScore);
@@ -66,13 +68,17 @@ namespace Managers
                     multiplierProgress++;
                     break;
                 case Multiplier.LevelUp:
-                    multiplierProgress = MultiplierUpThreshold;
+                    multiplierProgress = multiplierUpThreshold;
                     break;
             }
 
-            if (multiplierProgress == MultiplierUpThreshold)
+            if (multiplierProgress == multiplierUpThreshold)
             {
-                UIManager.instance.IncreaseMultiplierLevel();
+                if (_multiplier < 10)
+                    _multiplier++;
+                UIManager.instance.IncreaseMultiplierLevel(_multiplier);
+                multiplierProgress = 0;
+                multiplierUpThreshold++;
             }
             else
             {
@@ -80,6 +86,13 @@ namespace Managers
             }
         }
 
-
+        private void ResetMultiplier()
+        {
+            _multiplier = 1;
+            multiplierProgress = 0;
+            multiplierUpThreshold = 3;
+            UIManager.instance.ResetMultiplierMeter();
+            UIManager.instance.multiplierLevel.text = _multiplier.ToString();
+        }
     }
 }
