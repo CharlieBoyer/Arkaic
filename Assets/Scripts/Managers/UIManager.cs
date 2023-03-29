@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -57,6 +58,7 @@ namespace Managers
         public void Restart()
         {
             StopAllCoroutines();
+            Time.timeScale = 1;
             SceneManager.LoadScene("Level01", LoadSceneMode.Single);
         }
 
@@ -203,6 +205,11 @@ namespace Managers
                 multiplierMeter.fillAmount = Mathf.Lerp(currentFill, 0, t);
                 yield return null;
             }
+        }
+
+        private void OnDestroy()
+        {
+            instance = null;
         }
     }
 }

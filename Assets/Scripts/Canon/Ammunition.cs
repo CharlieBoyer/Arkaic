@@ -10,7 +10,7 @@ namespace Canon
         
         [Range(0, 5)] public int piercing;
 
-        private const float MaximumLifetime = 5f;
+        private const float MaximumLifetime = 2f;
         private float _lifetime = 0f;
 
         private void Awake()

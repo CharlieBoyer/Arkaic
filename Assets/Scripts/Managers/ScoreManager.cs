@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -23,7 +24,7 @@ namespace Managers
         private static int _multiplier = 1;
         
         public static int multiplierProgress = 0;
-        public static int multiplierUpThreshold = 3;
+        public static int multiplierUpThreshold = 5;
 
         private void Awake()
         {
@@ -90,9 +91,14 @@ namespace Managers
         {
             _multiplier = 1;
             multiplierProgress = 0;
-            multiplierUpThreshold = 3;
+            multiplierUpThreshold = 5;
             UIManager.instance.ResetMultiplierMeter();
             UIManager.instance.multiplierLevel.text = _multiplier.ToString();
+        }
+
+        private void OnDestroy()
+        {
+            instance = null;
         }
     }
 }

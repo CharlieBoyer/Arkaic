@@ -8,8 +8,9 @@ namespace Managers
         // ReSharper disable once MemberCanBePrivate.Global
         public static SceneLoader instance;
 
-        private static bool AltF4 => Input.GetKeyDown(KeyCode.LeftAlt) &&
-                                     Input.GetKeyDown(KeyCode.F4);
+        private static bool AltF4 => Input.GetKey(KeyCode.LeftControl) &&
+                                     Input.GetKey(KeyCode.LeftAlt) &&
+                                     Input.GetKey(KeyCode.F4);
 
         private void Awake()
         {
@@ -32,12 +33,15 @@ namespace Managers
                 UIManager.instance.Resume();
         }
 
-        public static void Exit() {
-            UnityEditor.EditorApplication.ExitPlaymode();
-            // Application.Quit();
+        public static void Exit()
+        {
+            Application.Quit();
+            // UnityEditor.EditorApplication.ExitPlaymode();
         }
-        
-        
-        
+
+        private void OnDestroy()
+        {
+            instance = null;
+        }
     }
 }

@@ -102,5 +102,10 @@ namespace Managers
             
             _pendingAudioClip = null;
         }
+
+        private void OnDestroy()
+        {
+            instance = null;
+        }
     }
 }
