@@ -17,7 +17,8 @@ namespace Managers
         [Header("Score value management")]
         public int bounceValue;
         public int bonusValue;
-        
+
+        public static int highScore = 0;
         public static int globalScore = 0;
         public static int shotScore = 0;
         
@@ -32,6 +33,9 @@ namespace Managers
                 instance = this;
             else
                 DestroyImmediate(this.gameObject);
+
+            highScore = PlayerPrefs.GetInt("HighScore", 0);
+            UIManager.instance.UpdateHighScore(highScore);
         }
 
         public void UpdateGlobalScore()
@@ -43,6 +47,13 @@ namespace Managers
             globalScore += shotScore;
             shotScore = 0;
             UIManager.instance.UpdateGlobalScore(initialGlobalScore, initialShotScore);
+
+            if (globalScore > highScore)
+            {
+                highScore = globalScore;
+                PlayerPrefs.SetInt("Highscore", highScore);
+                UIManager.instance.UpdateHighScore(highScore);
+            }
         }
 
         private void UpdateShotScore()

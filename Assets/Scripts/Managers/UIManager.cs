@@ -24,6 +24,7 @@ namespace Managers
         public TMP_Text shotScorePanel;
         public Image multiplierMeter;
         public TMP_Text multiplierLevel;
+        public TMP_Text highScorePanel;
 
         [Header("Animation delays")]
         [SerializeField] private float _scoreDelay;
@@ -59,7 +60,7 @@ namespace Managers
         {
             StopAllCoroutines();
             Time.timeScale = 1;
-            SceneManager.LoadScene("Level01", LoadSceneMode.Single);
+            SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
 
         public void Quit() {
@@ -205,6 +206,11 @@ namespace Managers
                 multiplierMeter.fillAmount = Mathf.Lerp(currentFill, 0, t);
                 yield return null;
             }
+        }
+
+        public void UpdateHighScore(int highscore)
+        {
+            highScorePanel.text = highscore.ToString("D7");
         }
 
         private void OnDestroy()
