@@ -34,7 +34,7 @@ namespace Managers
             else
                 DestroyImmediate(this.gameObject);
 
-            highScore = PlayerPrefs.GetInt("HighScore", 0);
+            highScore = PlayerPrefs.GetInt("Highscore", 0);
             UIManager.instance.UpdateHighScore(highScore);
         }
 
